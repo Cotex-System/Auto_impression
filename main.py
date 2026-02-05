@@ -7,7 +7,22 @@ import os
 
 ACROBAT_PATH = r"C:\Program Files\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"
 PRINTER_NAME = "ZDesigner TLP 2844"
+API_TOKEN = os.environ.get("PRINT_API_TOKEN")
 
+if not API_TOKEN:
+    raise RuntimeError("PRINT_API_TOKEN non défini")
+    
+def check_token(authorization: str | None):
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="Token manquant")
+
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Format du token invalide")
+
+    token = authorization.replace("Bearer ", "")
+    if token != API_TOKEN:
+        raise HTTPException(status_code=403, detail="Token invalide")
+        
 def print_epl(epl: bytes):
     hPrinter = win32print.OpenPrinter(PRINTER_NAME)
     try:
