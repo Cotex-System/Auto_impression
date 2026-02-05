@@ -6,7 +6,7 @@ import subprocess
 import sys
 import os
 
-SCRIPT_PATH = r"C:\chemin\vers\ton\script.py"  # ton script FastAPI
+SCRIPT_PATH = r"C:\Users\Tubconcept\Desktop\test\Auto_impression\main.py"  # ton script FastAPI
 PYTHON_EXE = sys.executable  # Python utilisé
 
 class ZebraPrintService(win32serviceutil.ServiceFramework):

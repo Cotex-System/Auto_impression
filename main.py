@@ -1,4 +1,6 @@
+from http.client import HTTPException
 import win32print
+import win32api
 import subprocess
 import time
 from fastapi import FastAPI, UploadFile, File, Form
@@ -38,12 +40,18 @@ def print_epl(epl: bytes):
 
 
 def print_pdf(pdf_path):
-    subprocess.Popen([
-        ACROBAT_PATH,
-        "/t",
-        pdf_path,
-        "ZDesigner TLP 2844"
-    ])
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"{pdf_path} introuvable")
+    
+    # Imprime le PDF via Windows sur l'imprimante spécifique
+    win32api.ShellExecute(
+        0,
+        "printto",               # commande spéciale pour imprimer
+        pdf_path,                # fichier PDF
+        f'"{PRINTER_NAME}"',     # imprimante cible
+        ".",                     # working directory
+        0                        # SW_HIDE pour ne pas montrer la fenêtre
+    )
     time.sleep(5)
 
 app = FastAPI()
