@@ -1,0 +1,123 @@
+{
+  "info": {
+    "name": "Zebra Print API",
+    "description": "Tests API impression Zebra TLP 2844 (TNT EPL / Chronopost PDF)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:5000"
+    },
+    {
+      "key": "token",
+      "value": "MON_TOKEN_SECRET_SUPER_LONG"
+    }
+  ],
+  "item": [
+    {
+      "name": "Impression TNT (EPL)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "carrier",
+              "value": "tnt",
+              "type": "text"
+            },
+            {
+              "key": "file",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/print",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "print"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Impression Chronopost (PDF)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "carrier",
+              "value": "chronopost",
+              "type": "text"
+            },
+            {
+              "key": "file",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/print",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "print"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Test sans token (doit échouer)",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "carrier",
+              "value": "tnt",
+              "type": "text"
+            },
+            {
+              "key": "file",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/print",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "print"
+          ]
+        }
+      }
+    }
+  ]
+}
