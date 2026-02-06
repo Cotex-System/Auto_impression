@@ -8,6 +8,7 @@ from PIL import Image, ImageWin
 import fitz  # PyMuPDF
 from win32con import HORZRES, VERTRES, PHYSICALWIDTH, PHYSICALHEIGHT
 from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.middleware.cors import CORSMiddleware 
 import tempfile
 import os
 
@@ -150,7 +151,13 @@ def print_pdf(pdf_path):
         raise RuntimeError("Impossible d'imprimer le PDF avec les méthodes disponibles") from e
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # ou domaine précis
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.post("/print")
 async def print_label(
     carrier: str = Form(...),
@@ -160,7 +167,8 @@ async def print_label(
 
     if carrier == "tnt":
         print_epl(data)
-
+    elif carrier == "poste":
+        print_epl(data)
     elif carrier == "chronopost":
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as f:
             f.write(data)
