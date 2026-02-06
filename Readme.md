@@ -22,6 +22,43 @@ Cette API peut être exécutée en **mode développement** (`main.py`) ou en **s
 
 ---
 
+## ⚙️ Installation de Python (Pour PC sans Python)
+
+### ✅ Option 1 : Anaconda (recommandé - plus simple)
+
+1. **Télécharger Anaconda** depuis https://www.anaconda.com/download
+   - Choisir la version **Windows 64-bit** (ou 32-bit selon votre système)
+
+2. **Installer Anaconda** :
+   - Double-cliquer sur le fichier téléchargé (`Anaconda3-*.exe`)
+   - Cocher : ✅ **"Add Anaconda3 to my PATH"** (IMPORTANT !)
+   - Cliquer "Install"
+   - Attendre la fin de l'installation
+
+3. **Vérifier l'installation** :
+   - Ouvrir **PowerShell** ou **Command Prompt** (chercher "PowerShell" dans le menu Démarrage)
+   - Taper : `python --version`
+   - Devrait afficher `Python 3.x.x` (ex: `Python 3.11.5`)
+
+### ✅ Option 2 : Python pur (Python.org)
+
+1. **Télécharger Python** depuis https://www.python.org/downloads/
+   - Cliquer sur **"Download Python 3.x"**
+   - Choisir **Windows 64-bit** (ou 32-bit selon votre système)
+
+2. **Installer Python** :
+   - Double-cliquer sur l'exécutable
+   - ⚠️ **COCHER : "Add Python 3.x to PATH"** (TRÈS IMPORTANT !)
+   - Cliquer "Install Now"
+   - Attendre la fin
+
+3. **Vérifier l'installation** :
+   - Ouvrir **PowerShell** ou **Command Prompt**
+   - Taper : `python --version`
+   - Devrait afficher `Python 3.x.x` (ex: `Python 3.11.5`)
+
+---
+
 ## Dépendances Python
 
 Installez les packages nécessaires :
@@ -42,6 +79,10 @@ pip install fastapi uvicorn pywin32 pypdf2
 définir le token pour sécuriser l'API
 ```bash
 setx PRINT_API_TOKEN "TON_TOKEN_SUPER_SECRET"
+```
+ou le définir pour la machine (si lancement automatique) :
+```bash
+[Environment]::SetEnvironmentVariable("PRINT_API_TOKEN", "MON_TOKEN_SECRET", "Machine")
 ```
 ⚠️ Fermez puis rouvrez la console pour que la variable soit disponible dans Python.
 
@@ -80,11 +121,12 @@ ou avec Uvicorn (rechargement en dev) :
 uvicorn main:app --host 127.0.0.1 --port 5000 --reload
 ```
 
+
 - **Swagger UI** : http://127.0.0.1:5000/docs
 - **Endpoint principal** : `POST /print`
 
 ### FormData
-- `carrier`: `tnt` ou `chronopost`
+- `carrier`: `tnt` ou `chronopost` ou `poste`
 - `file`: fichier à imprimer
 
 ### Headers
@@ -99,8 +141,13 @@ uvicorn main:app --host 127.0.0.1 --port 5000 --reload
 ```bash
 pip install pywin32
 ```
+2. mettre la variable d'env
 
-2. Installer le service (ouvrir PowerShell en administrateur) :
+```bash
+[Environment]::SetEnvironmentVariable("PRINT_API_TOKEN", "MON_TOKEN_SECRET", "Machine")
+```
+
+3. Installer le service (ouvrir Anaconda/PowerShell en administrateur) :
 
 ```powershell
 python print_service.py install
