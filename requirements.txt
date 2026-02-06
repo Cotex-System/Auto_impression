@@ -5,3 +5,5 @@ pywin32>=305
 PyPDF2>=3.0.0
 python-multipart>=0.0.6  # pour l'upload de fichiers via FormData
 requests>=2.31.0
+Pillow>=9.0.0
+PyMuPDF>=1.22.0
