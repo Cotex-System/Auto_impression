@@ -13,11 +13,48 @@ import tempfile
 import os
 
 ACROBAT_PATH = r"C:\Program Files\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"
-PRINTER_NAME = "ZDesigner TLP 2844"
+PRINTER_NAME = os.environ.get("PRINTER_NAME", "ZDesigner TLP 2844")
 API_TOKEN = os.environ.get("PRINT_API_TOKEN")
 
 if not API_TOKEN:
     raise RuntimeError("PRINT_API_TOKEN non défini")
+
+
+def _list_printers():
+    flags = win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS
+    printers = win32print.EnumPrinters(flags)
+    return [p[2] for p in printers]
+
+
+def resolve_printer_name(preferred_name: str) -> str:
+    printers = _list_printers()
+    if preferred_name in printers:
+        return preferred_name
+
+    preferred_lower = preferred_name.lower()
+    for name in printers:
+        if preferred_lower == name.lower():
+            return name
+
+    for name in printers:
+        if preferred_lower in name.lower():
+            return name
+
+    try:
+        default_printer = win32print.GetDefaultPrinter()
+    except Exception:
+        default_printer = None
+
+    if default_printer:
+        return default_printer
+
+    raise RuntimeError(
+        "Aucune imprimante valide trouvee. Verifiez PRINTER_NAME ou les imprimantes installees. "
+        f"Disponibles: {printers}"
+    )
+
+
+PRINTER_NAME = resolve_printer_name(PRINTER_NAME)
     
 def check_token(authorization: str | None):
     if authorization is None:
