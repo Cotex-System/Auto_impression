@@ -212,7 +212,17 @@ async def print_label(
             pdf_path = f.name
         print_pdf(pdf_path)
         os.remove(pdf_path)
-
+    elif carrier == "dpd":
+        if data.startswith(b"%PDF"):
+            # Traiter comme PDF
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as f:
+                f.write(data)
+                pdf_path = f.name
+            print_pdf(pdf_path)
+            os.remove(pdf_path)
+        else:
+            # Traiter comme EPL
+            print_epl(data)
     else:
         return {"error": "Transporteur inconnu"}
 
