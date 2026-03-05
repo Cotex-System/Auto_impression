@@ -14,8 +14,7 @@ SERVICE_DIR = Path(__file__).parent
 SCRIPT_PATH = SERVICE_DIR / "main.py"
 LOG_PATH = SERVICE_DIR / "logs"
 LOG_FILE = LOG_PATH / "zebra_print_service.log"
-PYTHON_EXE = "C:\\Users\\Tubconcept\\anaconda3\\envs\\branch-print\\python.exe"  # Python utilisé
-
+PYTHON_EXE = "C:/Users/Tubconcept/anaconda3/envs/branch-env_py313/python.exe"  # Python utilisé
 # Créer le dossier logs s'il n'existe pas
 LOG_PATH.mkdir(exist_ok=True)
 

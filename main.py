@@ -13,7 +13,7 @@ import tempfile
 import os
 
 ACROBAT_PATH = r"C:\Program Files\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe"
-PRINTER_NAME = os.environ.get("PRINTER_NAME", "ZDesigner TLP 2844")
+PRINTER_NAME = os.environ.get("PRINTER_NAME", "ZDesigner LP 2844 (Copie 1)")
 API_TOKEN = os.environ.get("PRINT_API_TOKEN")
 
 if not API_TOKEN:
@@ -28,6 +28,7 @@ def _list_printers():
 
 def resolve_printer_name(preferred_name: str) -> str:
     printers = _list_printers()
+    print(printers)
     if preferred_name in printers:
         return preferred_name
 
